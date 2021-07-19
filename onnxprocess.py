@@ -28,11 +28,14 @@ my_preprocess = transforms.Compose(
 img = my_preprocess(img)
 x = np.expand_dims(img, 0)
 
+# 针对cuda进行优化
 #target = "llvm"
 target = "cuda"
+# input_name与onnx模型中的名字一致
 input_name = "input.1"
 #input_name = "1"
 shape_dict = {input_name: x.shape}
+#mod为模型表达式。params为参数
 mod, params = relay.frontend.from_onnx(onnx_model, shape_dict)
 #visualize(mod["main"])
 #dev = tvm.cuda()
@@ -44,5 +47,7 @@ tvm_output = intrp.evaluate()(tvm.nd.array(x.astype(dtype)), **params).numpy()
 top1_tvm = np.argmax(tvm_output)
 print(top1_tvm)
 print(mod)
+#建计算图
 construct_op_graph(mod)
-#profile_memory(params, x)
+#profile
+profile_memory(params, x)

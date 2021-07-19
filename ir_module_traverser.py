@@ -81,6 +81,8 @@ class op_graph:
         N = 100
         while len(available_op_queue) > 0 :
             temp_op = available_op_queue.pop(0)
+            for key in temp_op.next.keys():
+                print("temp_op_son:" + str(temp_op.next[key][1].id))
             if fw:
                 profile_forward_relay_operator(temp_op, ir_params, x)
             if bw:
@@ -128,7 +130,9 @@ def construct_op_graph(ir_module):
         computation_graph.insert_op(temp_op_node)
         op_index+=1
     recursive_traverse_op(main_function.body.attrs, main_function.body.args, temp_op=main_function.body)
-    print(computation_graph.call_nodes)
+    print('main_function.body.attrs:' + str(main_function.body.attrs))
+    print('main_function.body.args:' + str(main_function.body.args))
+    #print(computation_graph.call_nodes)
 
 def profile_memory(ir_params, x):
     computation_graph.traverse_and_calculate_per_op( ir_params, x, bw = True)
@@ -209,11 +213,13 @@ def profile_forward_relay_operator(ready_op_node, ir_params, x, dtype="float32")
     if ready_op_node.type == "var":
         return
     new_args = generate_intermediate_symbolic_args(ready_op_node)
+    print('new_args:' + str(new_args))
     temp_body = tvm.relay.Call(ready_op_node.op_instance.op, new_args, attrs=ready_op_node.op_instance.attrs)
+    #print('temp_body:' + str(temp_body))
     call_function = tvm.relay.Function(new_args, temp_body)
     call_functions = {"GlobalVar": None, "main": call_function}
     call_ir_module = tvm.ir.IRModule(functions=call_functions)
-    # print(call_ir_module)
+    #print(call_ir_module)
     with tvm.transform.PassContext(opt_level=1):
         call_interpreter = relay.build_module.create_executor("graph", call_ir_module, tvm.cuda(0), "cuda")
     call_intput_args = get_op_args(ready_op_node, dtype, ir_params, x)

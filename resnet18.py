@@ -5,6 +5,7 @@ from tvm.contrib.download import download_testdata
 # 加载torchvision中的ResNet18模型
 model_name = "resnet18"
 model = getattr(torchvision.models, model_name)(pretrained=True)
+# 使用推理模型
 model = model.eval()
 
 from PIL import Image

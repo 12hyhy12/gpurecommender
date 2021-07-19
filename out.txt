@@ -1,0 +1,401 @@
+File /root/.tvm_test_data/onnx/super_resolution.onnx exists, skip.
+File /root/.tvm_test_data/data/cat.png exists, skip.
+-----
+def @main(%v1: Tensor[(1, 1, 224, 224), float32], %v2: Tensor[(64, 1, 5, 5), float32], %v3: Tensor[(64), float32], %v4: Tensor[(64, 64, 3, 3), float32], %v5: Tensor[(64), float32], %v6: Tensor[(32, 64, 3, 3), float32], %v7: Tensor[(32), float32], %v8: Tensor[(9, 32, 3, 3), float32], %v9: Tensor[(9), float32]) {
+  %0 = nn.conv2d(%v1, %v2, padding=[2, 2, 2, 2], kernel_size=[5, 5]);
+  %1 = expand_dims(%v3, axis=1, num_newaxis=2);
+  %2 = add(%0, %1);
+  %3 = nn.relu(%2);
+  %4 = nn.conv2d(%3, %v4, padding=[1, 1, 1, 1], kernel_size=[3, 3]);
+  %5 = expand_dims(%v5, axis=1, num_newaxis=2);
+  %6 = add(%4, %5);
+  %7 = nn.relu(%6);
+  %8 = nn.conv2d(%7, %v6, padding=[1, 1, 1, 1], kernel_size=[3, 3]);
+  %9 = expand_dims(%v7, axis=1, num_newaxis=2);
+  %10 = add(%8, %9);
+  %11 = nn.relu(%10);
+  %12 = nn.conv2d(%11, %v8, padding=[1, 1, 1, 1], kernel_size=[3, 3]);
+  %13 = expand_dims(%v9, axis=1, num_newaxis=2);
+  %14 = add(%12, %13);
+  %15 = reshape(%14, newshape=[1, 1, 3, 3, 224, 224]);
+  %16 = transpose(%15, axes=[0, 1, 4, 2, 5, 3]);
+  reshape(%16, newshape=[1, 1, 672, 672])
+}
+
+-----
+new_args:[Var(1, ty=TensorType([1, 1, 224, 224], float32)), Var(2, ty=TensorType([64, 1, 5, 5], float32))]
+temp_body:free_var %v1: Tensor[(1, 1, 224, 224), float32];
+free_var %v2: Tensor[(64, 1, 5, 5), float32];
+nn.conv2d(%v1, %v2, padding=[2, 2, 2, 2], kernel_size=[5, 5])
+def @main(%v1: Tensor[(1, 1, 224, 224), float32], %v2: Tensor[(64, 1, 5, 5), float32]) {
+  nn.conv2d(%v1, %v2, padding=[2, 2, 2, 2], kernel_size=[5, 5])
+}
+
+
+
+nn.conv2d-22
+nn.conv2d-22
+new_args:[Var(3, ty=TensorType([64], float32))]
+temp_body:free_var %v3: Tensor[(64), float32];
+expand_dims(%v3, axis=1, num_newaxis=2)
+def @main(%v3: Tensor[(64), float32]) {
+  expand_dims(%v3, axis=1, num_newaxis=2)
+}
+
+
+
+expand_dims-23
+expand_dims-23
+new_args:[Var(5, ty=TensorType([64], float32))]
+temp_body:free_var %v5: Tensor[(64), float32];
+expand_dims(%v5, axis=1, num_newaxis=2)
+def @main(%v5: Tensor[(64), float32]) {
+  expand_dims(%v5, axis=1, num_newaxis=2)
+}
+
+
+
+expand_dims-24
+expand_dims-24
+new_args:[Var(7, ty=TensorType([32], float32))]
+temp_body:free_var %v7: Tensor[(32), float32];
+expand_dims(%v7, axis=1, num_newaxis=2)
+def @main(%v7: Tensor[(32), float32]) {
+  expand_dims(%v7, axis=1, num_newaxis=2)
+}
+
+
+
+expand_dims-25
+expand_dims-25
+new_args:[Var(9, ty=TensorType([9], float32))]
+temp_body:free_var %v9: Tensor[(9), float32];
+expand_dims(%v9, axis=1, num_newaxis=2)
+def @main(%v9: Tensor[(9), float32]) {
+  expand_dims(%v9, axis=1, num_newaxis=2)
+}
+
+
+
+expand_dims-26
+expand_dims-26
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32)), Var(1, ty=TensorType([64, 1, 1], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+free_var %v1: Tensor[(64, 1, 1), float32];
+add(%v0, %v1)
+def @main(%v0: Tensor[(1, 64, 224, 224), float32], %v1: Tensor[(64, 1, 1), float32]) {
+  add(%v0, %v1)
+}
+
+
+
+add-21
+add-21
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32)), Var(1, ty=TensorType([64, 1, 1], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+free_var %v1: Tensor[(64, 1, 1), float32];
+add(%v0, %v1)
+def @main(%v0: Tensor[(1, 64, 224, 224), float32], %v1: Tensor[(64, 1, 1), float32]) {
+  add(%v0, %v1)
+}
+
+
+
+add-21
+add-21
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+nn.relu(%v0)
+def @main(%v0: Tensor[(1, 64, 224, 224), float32]) {
+  nn.relu(%v0)
+}
+
+
+
+nn.relu-20
+nn.relu-20
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+nn.relu(%v0)
+def @main(%v0: Tensor[(1, 64, 224, 224), float32]) {
+  nn.relu(%v0)
+}
+
+
+
+nn.relu-20
+nn.relu-20
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32)), Var(4, ty=TensorType([64, 64, 3, 3], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+free_var %v4: Tensor[(64, 64, 3, 3), float32];
+nn.conv2d(%v0, %v4, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+def @main(%v0: Tensor[(1, 64, 224, 224), float32], %v4: Tensor[(64, 64, 3, 3), float32]) {
+  nn.conv2d(%v0, %v4, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+}
+
+
+
+nn.conv2d-19
+nn.conv2d-19
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32)), Var(4, ty=TensorType([64, 64, 3, 3], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+free_var %v4: Tensor[(64, 64, 3, 3), float32];
+nn.conv2d(%v0, %v4, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+def @main(%v0: Tensor[(1, 64, 224, 224), float32], %v4: Tensor[(64, 64, 3, 3), float32]) {
+  nn.conv2d(%v0, %v4, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+}
+
+
+
+nn.conv2d-19
+nn.conv2d-19
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32)), Var(1, ty=TensorType([64, 1, 1], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+free_var %v1: Tensor[(64, 1, 1), float32];
+add(%v0, %v1)
+def @main(%v0: Tensor[(1, 64, 224, 224), float32], %v1: Tensor[(64, 1, 1), float32]) {
+  add(%v0, %v1)
+}
+
+
+
+add-18
+add-18
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32)), Var(1, ty=TensorType([64, 1, 1], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+free_var %v1: Tensor[(64, 1, 1), float32];
+add(%v0, %v1)
+def @main(%v0: Tensor[(1, 64, 224, 224), float32], %v1: Tensor[(64, 1, 1), float32]) {
+  add(%v0, %v1)
+}
+
+
+
+add-18
+add-18
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+nn.relu(%v0)
+def @main(%v0: Tensor[(1, 64, 224, 224), float32]) {
+  nn.relu(%v0)
+}
+
+
+
+nn.relu-17
+nn.relu-17
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+nn.relu(%v0)
+def @main(%v0: Tensor[(1, 64, 224, 224), float32]) {
+  nn.relu(%v0)
+}
+
+
+
+nn.relu-17
+nn.relu-17
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32)), Var(6, ty=TensorType([32, 64, 3, 3], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+free_var %v6: Tensor[(32, 64, 3, 3), float32];
+nn.conv2d(%v0, %v6, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+def @main(%v0: Tensor[(1, 64, 224, 224), float32], %v6: Tensor[(32, 64, 3, 3), float32]) {
+  nn.conv2d(%v0, %v6, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+}
+
+
+
+nn.conv2d-16
+nn.conv2d-16
+new_args:[Var(0, ty=TensorType([1, 64, 224, 224], float32)), Var(6, ty=TensorType([32, 64, 3, 3], float32))]
+temp_body:free_var %v0: Tensor[(1, 64, 224, 224), float32];
+free_var %v6: Tensor[(32, 64, 3, 3), float32];
+nn.conv2d(%v0, %v6, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+def @main(%v0: Tensor[(1, 64, 224, 224), float32], %v6: Tensor[(32, 64, 3, 3), float32]) {
+  nn.conv2d(%v0, %v6, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+}
+
+
+
+nn.conv2d-16
+nn.conv2d-16
+new_args:[Var(0, ty=TensorType([1, 32, 224, 224], float32)), Var(1, ty=TensorType([32, 1, 1], float32))]
+temp_body:free_var %v0: Tensor[(1, 32, 224, 224), float32];
+free_var %v1: Tensor[(32, 1, 1), float32];
+add(%v0, %v1)
+def @main(%v0: Tensor[(1, 32, 224, 224), float32], %v1: Tensor[(32, 1, 1), float32]) {
+  add(%v0, %v1)
+}
+
+
+
+add-15
+add-15
+new_args:[Var(0, ty=TensorType([1, 32, 224, 224], float32)), Var(1, ty=TensorType([32, 1, 1], float32))]
+temp_body:free_var %v0: Tensor[(1, 32, 224, 224), float32];
+free_var %v1: Tensor[(32, 1, 1), float32];
+add(%v0, %v1)
+def @main(%v0: Tensor[(1, 32, 224, 224), float32], %v1: Tensor[(32, 1, 1), float32]) {
+  add(%v0, %v1)
+}
+
+
+
+add-15
+add-15
+new_args:[Var(0, ty=TensorType([1, 32, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 32, 224, 224), float32];
+nn.relu(%v0)
+def @main(%v0: Tensor[(1, 32, 224, 224), float32]) {
+  nn.relu(%v0)
+}
+
+
+
+nn.relu-14
+nn.relu-14
+new_args:[Var(0, ty=TensorType([1, 32, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 32, 224, 224), float32];
+nn.relu(%v0)
+def @main(%v0: Tensor[(1, 32, 224, 224), float32]) {
+  nn.relu(%v0)
+}
+
+
+
+nn.relu-14
+nn.relu-14
+new_args:[Var(0, ty=TensorType([1, 32, 224, 224], float32)), Var(8, ty=TensorType([9, 32, 3, 3], float32))]
+temp_body:free_var %v0: Tensor[(1, 32, 224, 224), float32];
+free_var %v8: Tensor[(9, 32, 3, 3), float32];
+nn.conv2d(%v0, %v8, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+def @main(%v0: Tensor[(1, 32, 224, 224), float32], %v8: Tensor[(9, 32, 3, 3), float32]) {
+  nn.conv2d(%v0, %v8, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+}
+
+
+
+nn.conv2d-13
+Filename: /root/huyi/talos/tvm-analyzer/relay_profiler/ir_module_traverser.py
+
+Line #    Mem usage    Increment  Occurences   Line Contents
+============================================================
+   234    373.9 MiB    373.9 MiB           1       @profile
+   235                                             def op_forward_profile():
+   236    374.0 MiB      0.1 MiB           1           res = call_interpreter.evaluate()(*call_intput_args, **ir_params)
+   237    374.0 MiB      0.0 MiB           1           return res
+
+
+nn.conv2d-13
+Filename: /root/huyi/talos/tvm-analyzer/relay_profiler/ir_module_traverser.py
+
+Line #    Mem usage    Increment  Occurences   Line Contents
+============================================================
+   263    374.0 MiB    374.0 MiB           1       @profile
+   264                                             def op_backward_profile():
+   265    374.2 MiB      0.2 MiB           1           res = call_interpreter.evaluate(bwd_func)(*call_intput_args, **ir_params)
+   266    374.2 MiB      0.0 MiB           1           return res
+
+
+new_args:[Var(0, ty=TensorType([1, 32, 224, 224], float32)), Var(8, ty=TensorType([9, 32, 3, 3], float32))]
+temp_body:free_var %v0: Tensor[(1, 32, 224, 224), float32];
+free_var %v8: Tensor[(9, 32, 3, 3), float32];
+nn.conv2d(%v0, %v8, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+def @main(%v0: Tensor[(1, 32, 224, 224), float32], %v8: Tensor[(9, 32, 3, 3), float32]) {
+  nn.conv2d(%v0, %v8, padding=[1, 1, 1, 1], kernel_size=[3, 3])
+}
+
+
+
+nn.conv2d-13
+nn.conv2d-13
+new_args:[Var(0, ty=TensorType([1, 9, 224, 224], float32)), Var(1, ty=TensorType([9, 1, 1], float32))]
+temp_body:free_var %v0: Tensor[(1, 9, 224, 224), float32];
+free_var %v1: Tensor[(9, 1, 1), float32];
+add(%v0, %v1)
+def @main(%v0: Tensor[(1, 9, 224, 224), float32], %v1: Tensor[(9, 1, 1), float32]) {
+  add(%v0, %v1)
+}
+
+
+
+add-12
+add-12
+new_args:[Var(0, ty=TensorType([1, 9, 224, 224], float32)), Var(1, ty=TensorType([9, 1, 1], float32))]
+temp_body:free_var %v0: Tensor[(1, 9, 224, 224), float32];
+free_var %v1: Tensor[(9, 1, 1), float32];
+add(%v0, %v1)
+def @main(%v0: Tensor[(1, 9, 224, 224), float32], %v1: Tensor[(9, 1, 1), float32]) {
+  add(%v0, %v1)
+}
+
+
+
+add-12
+add-12
+new_args:[Var(0, ty=TensorType([1, 9, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 9, 224, 224), float32];
+reshape(%v0, newshape=[1, 1, 3, 3, 224, 224])
+def @main(%v0: Tensor[(1, 9, 224, 224), float32]) {
+  reshape(%v0, newshape=[1, 1, 3, 3, 224, 224])
+}
+
+
+
+reshape-11
+reshape-11
+new_args:[Var(0, ty=TensorType([1, 9, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 9, 224, 224), float32];
+reshape(%v0, newshape=[1, 1, 3, 3, 224, 224])
+def @main(%v0: Tensor[(1, 9, 224, 224), float32]) {
+  reshape(%v0, newshape=[1, 1, 3, 3, 224, 224])
+}
+
+
+
+reshape-11
+reshape-11
+new_args:[Var(0, ty=TensorType([1, 1, 3, 3, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 1, 3, 3, 224, 224), float32];
+transpose(%v0, axes=[0, 1, 4, 2, 5, 3])
+def @main(%v0: Tensor[(1, 1, 3, 3, 224, 224), float32]) {
+  transpose(%v0, axes=[0, 1, 4, 2, 5, 3])
+}
+
+
+
+transpose-10
+transpose-10
+new_args:[Var(0, ty=TensorType([1, 1, 3, 3, 224, 224], float32))]
+temp_body:free_var %v0: Tensor[(1, 1, 3, 3, 224, 224), float32];
+transpose(%v0, axes=[0, 1, 4, 2, 5, 3])
+def @main(%v0: Tensor[(1, 1, 3, 3, 224, 224), float32]) {
+  transpose(%v0, axes=[0, 1, 4, 2, 5, 3])
+}
+
+
+
+transpose-10
+transpose-10
+new_args:[Var(0, ty=TensorType([1, 1, 224, 3, 224, 3], float32))]
+temp_body:free_var %v0: Tensor[(1, 1, 224, 3, 224, 3), float32];
+reshape(%v0, newshape=[1, 1, 672, 672])
+def @main(%v0: Tensor[(1, 1, 224, 3, 224, 3), float32]) {
+  reshape(%v0, newshape=[1, 1, 672, 672])
+}
+
+
+
+reshape-9
+reshape-9
+new_args:[Var(0, ty=TensorType([1, 1, 224, 3, 224, 3], float32))]
+temp_body:free_var %v0: Tensor[(1, 1, 224, 3, 224, 3), float32];
+reshape(%v0, newshape=[1, 1, 672, 672])
+def @main(%v0: Tensor[(1, 1, 224, 3, 224, 3), float32]) {
+  reshape(%v0, newshape=[1, 1, 672, 672])
+}
+
+
+
+reshape-9
+reshape-9
